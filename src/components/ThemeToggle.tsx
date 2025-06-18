@@ -1,45 +1,49 @@
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 type Theme = "light" | "dark";
 
 export const ThemeToggle = () => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme) return savedTheme;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  });
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
+    const storedTheme = localStorage.getItem("theme") as Theme | null;
+    if (storedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
     } else {
-      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
     }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, []);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  const toggleTheme = (): void => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setIsDarkMode(true);
+    }
   };
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
+      aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
       className={cn(
-        "fixed max-sm:hidden top-5 right-5 rounded-full transition-colors duration-300",
-        "focus:outline-hidden"
+        "fixed max-sm:hidden top-5 right-5 z-50 p-2 rounded-full transition-colors duration-300",
+        "focus:outline-none"
       )}
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
     >
-      {theme === "dark" ? (
-        <Sun className="w-6 h-6 text-yellow-300" />
+      {isDarkMode ? (
+        <Sun className="h-6 w-6 text-yellow-300" aria-hidden="true" />
       ) : (
-        <Moon className="w-6 h-6 text-blue-900" />
+        <Moon className="h-6 w-6 text-blue-900" aria-hidden="true" />
       )}
     </button>
   );
