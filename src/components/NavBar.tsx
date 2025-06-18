@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useState, memo, useCallback } from "react";
 import { useThrottledScroll } from "@/hooks/use-throttled-scroll";
+import { useNavigate } from "react-router-dom";
 
 interface NavItem {
   name: string;
@@ -19,12 +20,17 @@ const navItems: NavItem[] = [
 export const Navbar: React.FC = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleScroll = useCallback((scrollY: number) => {
     setIsScrolled(scrollY > 10);
   }, []);
 
   useThrottledScroll(handleScroll);
+
+  const handleEasterEgg = () => {
+    navigate("/404");
+  };
 
   return (
     <nav
@@ -55,6 +61,16 @@ export const Navbar: React.FC = memo(() => {
               {item.name}
             </a>
           ))}
+          
+          {/* Easter egg - eyes emoji */}
+          <button
+            onClick={handleEasterEgg}
+            className="text-foreground/60 hover:text-primary transition-colors duration-300 text-lg cursor-pointer"
+            title="Let's get lost..."
+            aria-label="Easter egg - Let's get lost"
+          >
+            👀
+          </button>
         </div>
 
         {/* mobile menu button */}
@@ -87,6 +103,19 @@ export const Navbar: React.FC = memo(() => {
                 {item.name}
               </a>
             ))}
+            
+            {/* Easter egg in mobile menu */}
+            <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleEasterEgg();
+              }}
+              className="text-foreground/60 hover:text-primary transition-colors duration-300 text-xl cursor-pointer"
+              title="👀 Let's get lost..."
+              aria-label="Easter egg - Let's get lost"
+            >
+              👀
+            </button>
           </div>
         </div>
       </div>
