@@ -1,35 +1,54 @@
 import { ArrowDown } from "lucide-react";
 import type { FC } from "react";
+import { motion } from "framer-motion";
+import { memo } from "react";
 
-export const HeroSection: FC = () => {
+export const HeroSection: FC = memo(() => {
   return (
-    <section
+    <motion.section
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center px-4"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
     >
       <div className="container max-w-4xl mx-auto text-center z-10">
         <div className="space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            <span className="opacity-0 animate-fade-in"> Hi, I'm</span>
-            <span className="text-primary opacity-0 animate-fade-in-delay-1">
-              {" "}
-              Jonathan
-            </span>
-            <span className="text-gradient ml-2 opacity-0 animate-fade-in-delay-2">
-              {" "}
-              Sequeira
-            </span>
-          </h1>
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold tracking-tight"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <span> Hi, I'm</span>
+            <span className="text-primary ml-2"> Jonathan</span>
+            <span className="text-gradient ml-2"> Sequeira</span>
+          </motion.h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in-delay-3">
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+          >
             Lead Software Engineer specializing in React, TypeScript, and Node.js. I build secure, scalable solutions across diverse industries—passionate about clean code and practical architecture.
-          </p>
+          </motion.p>
 
-          <div className="pt-4 opacity-0 animate-fade-in-delay-4">
-            <a href="#projects" className="cosmic-button">
+          <motion.div
+            className="pt-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut", delay: 0.4 }}
+          >
+            <motion.a
+              href="#projects"
+              className="cosmic-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
               View My Work
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
 
@@ -37,6 +56,6 @@ export const HeroSection: FC = () => {
         <span className="text-sm text-muted-foreground mb-2"> Scroll </span>
         <ArrowDown className="h-5 w-5 text-primary" />
       </div>
-    </section>
+    </motion.section>
   );
-};
+});

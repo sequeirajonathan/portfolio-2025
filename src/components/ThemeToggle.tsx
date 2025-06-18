@@ -4,28 +4,72 @@ import { cn } from "@/lib/utils";
 
 type Theme = "light" | "dark";
 
-export const ThemeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-
-  useEffect(() => {
+// Initialize theme immediately to prevent flash
+const initializeTheme = (): Theme => {
+  // Check if we're in the browser
+  if (typeof window === "undefined") return "dark";
+  
+  try {
     const storedTheme = localStorage.getItem("theme") as Theme | null;
-    if (storedTheme === "dark") {
-      setIsDarkMode(true);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    // Default to dark mode if no preference stored
+    const theme: Theme = storedTheme || (prefersDark ? "dark" : "light");
+    
+    // Apply theme immediately
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
-      localStorage.setItem("theme", "light");
-      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+    
+    return theme;
+  } catch (error) {
+    // Fallback to dark mode if localStorage fails
+    console.warn("Failed to access localStorage:", error);
+    document.documentElement.classList.add("dark");
+    return "dark";
+  }
+};
+
+export const ThemeToggle = (): JSX.Element => {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    // Initialize state immediately to prevent flash
+    if (typeof window === "undefined") return true;
+    return initializeTheme() === "dark";
+  });
+
+  useEffect(() => {
+    // Ensure theme is properly set on mount
+    const theme: Theme = initializeTheme();
+    setIsDarkMode(theme === "dark");
+    
+    // Store the theme if it wasn't already stored
+    if (!localStorage.getItem("theme")) {
+      try {
+        localStorage.setItem("theme", theme);
+      } catch (error) {
+        console.warn("Failed to save theme to localStorage:", error);
+      }
     }
   }, []);
 
   const toggleTheme = (): void => {
     if (isDarkMode) {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      try {
+        localStorage.setItem("theme", "light");
+      } catch (error) {
+        console.warn("Failed to save theme to localStorage:", error);
+      }
       setIsDarkMode(false);
     } else {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (error) {
+        console.warn("Failed to save theme to localStorage:", error);
+      }
       setIsDarkMode(true);
     }
   };

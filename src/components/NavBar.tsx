@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { ThemeToggle } from "./ThemeToggle";
+import { useState, memo, useCallback } from "react";
+import { useThrottledScroll } from "@/hooks/use-throttled-scroll";
 
 interface NavItem {
   name: string;
@@ -16,18 +16,16 @@ const navItems: NavItem[] = [
   { name: "Contact", href: "#contact" },
 ];
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  const handleScroll = useCallback((scrollY: number) => {
+    setIsScrolled(scrollY > 10);
   }, []);
+
+  useThrottledScroll(handleScroll);
+
   return (
     <nav
       className={cn(
@@ -57,9 +55,6 @@ export const Navbar: React.FC = () => {
               {item.name}
             </a>
           ))}
-          <div className="ml-4 lg:ml-6">
-            <ThemeToggle />
-          </div>
         </div>
 
         {/* mobile menu button */}
@@ -86,7 +81,7 @@ export const Navbar: React.FC = () => {
               <a
                 key={key}
                 href={item.href}
-                className="text-foreground/80 hover:text-primary transition-all duration-300 hover:scale-110 px-4 py-2 rounded"
+                className="text-foreground/80 hover:text-primary transition-colors duration-300 px-4 py-2 rounded"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}
@@ -97,4 +92,4 @@ export const Navbar: React.FC = () => {
       </div>
     </nav>
   );
-};
+});
