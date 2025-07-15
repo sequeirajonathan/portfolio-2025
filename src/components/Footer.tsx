@@ -21,13 +21,13 @@ export const Footer: FC = memo(() => {
         <div className="star animate-pulse-subtle" style={{width: '6px', height: '6px', left: '50%', top: '20%', opacity: 0.6, position: 'absolute'}} />
       </div>
       <motion.div
-        className="container flex flex-wrap justify-between items-center relative z-10 py-8 px-4 pb-16"
+        className="container flex flex-col md:flex-row justify-center md:justify-between items-center relative z-10 py-8 px-4 pb-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
         viewport={{ once: true, amount: 0.1 }}
       >
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 text-center md:text-left">
           <span className="text-lg font-bold text-glow text-primary">Vet2Dev</span>
           <span className="text-xs text-muted-foreground">Open to new opportunities &mdash; Let's build something great.</span>
           <span className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Vet2Dev. All rights reserved.</span>

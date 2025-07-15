@@ -109,18 +109,6 @@ export const Navbar: React.FC = memo(() => {
               </a>
             ))}
             
-            {/* Easter egg in mobile menu */}
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                handleEasterEgg();
-              }}
-              className="text-foreground/60 hover:text-primary transition-colors duration-300 text-lg sm:text-xl cursor-pointer"
-              title="👀 Let's get lost..."
-              aria-label="Easter egg - Let's get lost"
-            >
-              👀
-            </button>
             {/* Theme toggle in mobile menu */}
             <span className="inline-flex items-center mt-2">
               <ThemeToggle />

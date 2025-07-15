@@ -12,10 +12,9 @@ const initializeTheme = (): Theme => {
   
   try {
     const storedTheme = localStorage.getItem("theme") as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
-    
-    const theme: Theme = storedTheme || (prefersDark ? "dark" : "light");
+    // Default to dark theme on first visit, regardless of system preference
+    const theme: Theme = storedTheme || "dark";
     
     
     if (theme === "dark") {

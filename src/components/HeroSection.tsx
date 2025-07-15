@@ -8,7 +8,7 @@ export const HeroSection: FC = memo(() => {
   return (
     <motion.section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6"
+      className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 sm:px-6 pt-8 sm:pt-12"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
