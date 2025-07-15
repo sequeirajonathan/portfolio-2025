@@ -21,7 +21,7 @@ export const Footer: FC = memo(() => {
         <div className="star animate-pulse-subtle" style={{width: '6px', height: '6px', left: '50%', top: '20%', opacity: 0.6, position: 'absolute'}} />
       </div>
       <motion.div
-        className="container flex flex-wrap justify-between items-center relative z-10 py-8 px-4"
+        className="container flex flex-wrap justify-between items-center relative z-10 py-8 px-4 pb-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
@@ -34,12 +34,14 @@ export const Footer: FC = memo(() => {
         </div>
         <a
           href="#hero"
-          className="cosmic-button flex items-center justify-center mt-4 md:mt-0"
+          className="cosmic-button flex items-center justify-center mt-4 md:mt-0 hidden md:flex"
           aria-label="Back to top"
         >
           <ArrowUp size={20} />
         </a>
       </motion.div>
+      {/* Intersection Observer Anchor for Black Hole (block-level, at end of footer) */}
+      <div id="footer-observer-anchor" style={{ width: '100%', height: 32, pointerEvents: 'none', zIndex: 1 }} />
     </motion.footer>
   );
 });

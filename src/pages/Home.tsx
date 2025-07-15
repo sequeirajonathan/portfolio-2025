@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Navbar } from "@/components/Navbar";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Navbar } from "@/components/NavBar";
 import { StarBackground } from "@/components/StarBackground";
 import { HeroSection } from "@/components/HeroSection";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
@@ -31,7 +30,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Theme Toggle */}
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
       {/* Background Effects */}
       <StarBackground />
 

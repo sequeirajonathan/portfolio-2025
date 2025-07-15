@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useState, memo, useCallback } from "react";
 import { useThrottledScroll } from "@/hooks/use-throttled-scroll";
 import { useNavigate } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface NavItem {
   name: string;
@@ -35,13 +36,13 @@ export const Navbar: React.FC = memo(() => {
   return (
     <nav
       className={cn(
-        "fixed w-full z-40 transition-all duration-300",
-        isScrolled ? "py-2 sm:py-3 md:py-4 bg-background/80 backdrop-blur-md shadow-xs" : "py-3 sm:py-4 md:py-5"
+        "w-full z-40 transition-all duration-300",
+        isScrolled ? "py-2 sm:py-3 md:py-4 bg-background/80 backdrop-blur-md shadow-xs" : "py-2 sm:py-3 md:py-4 lg:py-5"
       )}
     >
-      <div className="container flex items-center justify-between px-2 sm:px-4">
+      <div className="container flex items-center justify-between px-3 sm:px-4">
         <a
-          className="text-lg sm:text-xl md:text-2xl font-bold text-primary flex items-center"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-primary flex items-center"
           href="#hero"
         >
           <span className="relative z-10">
@@ -71,6 +72,10 @@ export const Navbar: React.FC = memo(() => {
           >
             👀
           </button>
+          {/* Theme toggle icon */}
+          <span className="inline-flex items-center ml-2">
+            <ThemeToggle />
+          </span>
         </div>
 
         {/* mobile menu button */}
@@ -79,7 +84,7 @@ export const Navbar: React.FC = memo(() => {
           className="md:hidden p-2 text-foreground z-50 hover:bg-primary/10 rounded-full transition-colors duration-300"
           aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMenuOpen ? <X size={20} className="sm:w-6 sm:h-6" /> : <Menu size={20} className="sm:w-6 sm:h-6" />}
         </button>
 
         {/* mobile menu */}
@@ -92,7 +97,7 @@ export const Navbar: React.FC = memo(() => {
               : "opacity-0 pointer-events-none"
           )}
         >
-          <div className="flex flex-col space-y-6 sm:space-y-8 text-lg sm:text-xl w-full items-center">
+          <div className="flex flex-col space-y-4 sm:space-y-6 text-base sm:text-lg lg:text-xl w-full items-center">
             {navItems.map((item: NavItem, key: number) => (
               <a
                 key={key}
@@ -110,12 +115,16 @@ export const Navbar: React.FC = memo(() => {
                 setIsMenuOpen(false);
                 handleEasterEgg();
               }}
-              className="text-foreground/60 hover:text-primary transition-colors duration-300 text-xl cursor-pointer"
+              className="text-foreground/60 hover:text-primary transition-colors duration-300 text-lg sm:text-xl cursor-pointer"
               title="👀 Let's get lost..."
               aria-label="Easter egg - Let's get lost"
             >
               👀
             </button>
+            {/* Theme toggle in mobile menu */}
+            <span className="inline-flex items-center mt-2">
+              <ThemeToggle />
+            </span>
           </div>
         </div>
       </div>

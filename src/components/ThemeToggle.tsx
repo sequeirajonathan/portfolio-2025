@@ -1,6 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 type Theme = "light" | "dark";
 
@@ -32,7 +33,7 @@ const initializeTheme = (): Theme => {
   }
 };
 
-export const ThemeToggle = (): JSX.Element => {
+export const ThemeToggle = (): React.ReactElement => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     // Initialize state immediately to prevent flash
     if (typeof window === "undefined") return true;
@@ -80,7 +81,7 @@ export const ThemeToggle = (): JSX.Element => {
       onClick={toggleTheme}
       aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
       className={cn(
-        "fixed max-sm:hidden top-5 right-5 z-50 p-2 rounded-full transition-colors duration-300",
+        "p-2 rounded-full transition-colors duration-300",
         "focus:outline-none"
       )}
     >
