@@ -2,7 +2,7 @@ import { useEffect, useState, memo, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// BlackHoleButton component
+
 const BlackHoleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -43,7 +43,7 @@ const BlackHoleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
         prevY: centery + orbital,
       });
     }
-    let startTime = Date.now();
+    const startTime = Date.now();
     let animationId: number;
     function rotate(cx: number, cy: number, x: number, y: number, angle: number) {
       const cos = Math.cos(angle);
@@ -80,7 +80,7 @@ const BlackHoleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
         star.prevX = x;
         star.prevY = y;
       }
-      // Draw black hole core
+      
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
       ctx.beginPath();
@@ -90,7 +90,7 @@ const BlackHoleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
       ctx.shadowBlur = 10;
       ctx.fill();
       ctx.restore();
-      // Draw accretion disk
+      
       ctx.save();
       ctx.beginPath();
       ctx.arc(centerx, centery, 16, 0, 2 * Math.PI);
@@ -130,7 +130,7 @@ const BlackHoleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   );
 };
 
-export const footerObserverId = 'footer-observer-anchor';
+
 
 export const PerformanceMonitor: React.FC = memo(() => {
   const [metrics, setMetrics] = useState<{ fps: number; loadTime: number; memoryUsage?: number }>({ fps: 0, loadTime: 0 });
@@ -139,51 +139,11 @@ export const PerformanceMonitor: React.FC = memo(() => {
   const [uptime, setUptime] = useState(0);
   const [screenSize, setScreenSize] = useState({ w: window.innerWidth, h: window.innerHeight });
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
-  const [isAboveFooter, setIsAboveFooter] = useState(false);
-  const footerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth >= 768);
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
-  }, []);
-
-  useEffect(() => {
-    // Find the footer element by tag or class
-    const footer = document.querySelector('footer');
-    footerRef.current = footer as HTMLElement;
-    function checkFooter() {
-      if (!footerRef.current) return setIsAboveFooter(false);
-      const rect = footerRef.current.getBoundingClientRect();
-      // If the footer is visible in the viewport, position black hole above it
-      setIsAboveFooter(rect.top < window.innerHeight);
-    }
-    window.addEventListener('scroll', checkFooter);
-    window.addEventListener('resize', checkFooter);
-    checkFooter();
-    return () => {
-      window.removeEventListener('scroll', checkFooter);
-      window.removeEventListener('resize', checkFooter);
-    };
-  }, []);
-
-  // Hide the component when nearing the footer
-  const [isNearFooter, setIsNearFooter] = useState(false);
-  
-  useEffect(() => {
-    function checkNearFooter() {
-      if (!footerRef.current) return setIsNearFooter(false);
-      const rect = footerRef.current.getBoundingClientRect();
-      // Hide when footer is within 200px of viewport bottom
-      setIsNearFooter(rect.top < window.innerHeight + 200);
-    }
-    window.addEventListener('scroll', checkNearFooter);
-    window.addEventListener('resize', checkNearFooter);
-    checkNearFooter();
-    return () => {
-      window.removeEventListener('scroll', checkNearFooter);
-      window.removeEventListener('resize', checkNearFooter);
-    };
   }, []);
 
   useEffect(() => {
@@ -208,7 +168,7 @@ export const PerformanceMonitor: React.FC = memo(() => {
     requestAnimationFrame(measureFPS);
     if ('memory' in performance) {
       const updateMemory = () => {
-        const memory = (performance as any).memory;
+        const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
         if (memory) {
           setMetrics(prev => ({ ...prev, memoryUsage: Math.round(memory.usedJSHeapSize / 1024 / 1024) }));
         }
@@ -230,18 +190,18 @@ export const PerformanceMonitor: React.FC = memo(() => {
   }, []);
 
   const cpuCores = navigator.hardwareConcurrency;
-  const networkType = (navigator as any).connection?.effectiveType;
+  const networkType = (navigator as Navigator & { connection?: { effectiveType: string } }).connection?.effectiveType;
 
   if (!isVisible || !isDesktop) return null;
 
-  // Always float above footer with high z-index
+  
   const blackHoleStyle = {
     position: 'fixed' as const,
     left: 24,
-    bottom: 300, // Fixed position that's always above footer
+    bottom: 300, 
     width: 160,
     height: 160,
-    zIndex: 9999, // Extremely high z-index to ensure it's above everything
+    zIndex: 9999, 
   };
 
   const loadDisplay = metrics.loadTime > 1000 ? `${(metrics.loadTime / 1000).toFixed(2)}s` : `${Math.round(metrics.loadTime)}ms`;

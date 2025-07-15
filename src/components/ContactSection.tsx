@@ -49,14 +49,14 @@ import {
       
       if (isSubmitting) return;
 
-      // Basic validation
+      
       if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
         setSubmitStatus('error');
         setStatusMessage('Please fill in all fields.');
         return;
       }
 
-      // Email validation
+      
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
         setSubmitStatus('error');
@@ -69,7 +69,7 @@ import {
       setStatusMessage('');
 
       try {
-        // Initialize EmailJS with your public key
+        
         emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
         const templateParams = {
@@ -89,7 +89,7 @@ import {
         setSubmitStatus('success');
         setStatusMessage('Message sent successfully! I\'ll get back to you soon.');
         resetForm();
-        // Hide success message after 5 seconds
+        
         setTimeout(() => {
           setSubmitStatus('idle');
           setStatusMessage('');

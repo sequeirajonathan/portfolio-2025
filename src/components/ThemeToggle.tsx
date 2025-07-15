@@ -5,19 +5,19 @@ import React from "react";
 
 type Theme = "light" | "dark";
 
-// Initialize theme immediately to prevent flash
+
 const initializeTheme = (): Theme => {
-  // Check if we're in the browser
+  
   if (typeof window === "undefined") return "dark";
   
   try {
     const storedTheme = localStorage.getItem("theme") as Theme | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
-    // Default to dark mode if no preference stored
+    
     const theme: Theme = storedTheme || (prefersDark ? "dark" : "light");
     
-    // Apply theme immediately
+    
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -26,7 +26,7 @@ const initializeTheme = (): Theme => {
     
     return theme;
   } catch (error) {
-    // Fallback to dark mode if localStorage fails
+    
     console.warn("Failed to access localStorage:", error);
     document.documentElement.classList.add("dark");
     return "dark";
@@ -35,17 +35,17 @@ const initializeTheme = (): Theme => {
 
 export const ThemeToggle = (): React.ReactElement => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    // Initialize state immediately to prevent flash
+    
     if (typeof window === "undefined") return true;
     return initializeTheme() === "dark";
   });
 
   useEffect(() => {
-    // Ensure theme is properly set on mount
+    
     const theme: Theme = initializeTheme();
     setIsDarkMode(theme === "dark");
     
-    // Store the theme if it wasn't already stored
+    
     if (!localStorage.getItem("theme")) {
       try {
         localStorage.setItem("theme", theme);

@@ -4,14 +4,14 @@ import { StarBackground } from "@/components/StarBackground";
 import { HeroSection } from "@/components/HeroSection";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 
-// Lazy load sections that are not immediately visible
+
 const AboutSection = lazy(() => import("@/components/AboutSection").then(module => ({ default: module.AboutSection })));
 const SkillsSection = lazy(() => import("@/components/SkillsSection").then(module => ({ default: module.SkillsSection })));
 const ProjectsSection = lazy(() => import("@/components/ProjectsSection").then(module => ({ default: module.ProjectsSection })));
 const ContactSection = lazy(() => import("@/components/ContactSection").then(module => ({ default: module.ContactSection })));
 const Footer = lazy(() => import("@/components/Footer").then(module => ({ default: module.Footer })));
 
-// Loading fallback component
+
 const SectionLoader = () => (
   <div className="py-24 px-4">
     <div className="container mx-auto max-w-5xl">

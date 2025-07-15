@@ -2,7 +2,7 @@ import { useState, useMemo, memo, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-// Skill and category types
+
 interface Skill {
   name: string;
   level: "Expert" | "Advanced" | "Proficient" | "Intermediate";
@@ -12,31 +12,31 @@ interface Skill {
 type SkillCategory = "all" | "frontend" | "backend" | "cloud" | "testing" | "tools";
 
 const skills: Skill[] = [
-  // Frontend
+  
   { name: "React", level: "Expert", category: "frontend" },
   { name: "TypeScript", level: "Advanced", category: "frontend" },
   { name: "JavaScript", level: "Expert", category: "frontend" },
   { name: "Redux", level: "Proficient", category: "frontend" },
   { name: "Tailwind CSS", level: "Proficient", category: "frontend" },
 
-  // Backend
+  
   { name: "Node.js", level: "Advanced", category: "backend" },
   { name: "Express", level: "Proficient", category: "backend" },
   { name: "C# .NET", level: "Intermediate", category: "backend" },
   { name: "Java", level: "Intermediate", category: "backend" },
   { name: "SQL", level: "Proficient", category: "backend" },
 
-  // Cloud
+  
   { name: "Azure DevOps", level: "Proficient", category: "cloud" },
   { name: "Vercel", level: "Proficient", category: "cloud" },
   { name: "Supabase", level: "Intermediate", category: "cloud" },
   { name: "Docker", level: "Intermediate", category: "cloud" },
 
-  // Testing
+  
   { name: "Jest", level: "Proficient", category: "testing" },
   { name: "Cypress", level: "Proficient", category: "testing" },
 
-  // Tools
+  
   { name: "Git/GitHub", level: "Expert", category: "tools" },
   { name: "VS Code", level: "Expert", category: "tools" },
 ];
@@ -47,7 +47,7 @@ export const SkillsSection: React.FC = memo(() => {
   const [activeCategory, setActiveCategory] = useState<SkillCategory>("all");
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if we're on mobile and set default category
+  
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
@@ -64,14 +64,14 @@ export const SkillsSection: React.FC = memo(() => {
     return () => window.removeEventListener('resize', checkMobile);
   }, [activeCategory]);
 
-  // Memoize filtered skills to prevent recalculation
+  
   const filteredSkills = useMemo(() => {
     return skills.filter(
       (skill) => activeCategory === "all" || skill.category === activeCategory
     );
   }, [activeCategory]);
 
-  // Filter categories for mobile (exclude "all" on mobile)
+  
   const mobileCategories = categories.filter(cat => cat !== "all");
   const displayCategories = isMobile ? mobileCategories : categories;
 
